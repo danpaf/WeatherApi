@@ -8,7 +8,7 @@ namespace MoscowApi.Services;
 public class UserService
 {
     private readonly ApplicationContext _context;
-    private const int SaltSize = 16; // Размер соли (в байтах)
+    private const int SaltSize = 16;
 
     public UserService(ApplicationContext context)
     {
@@ -17,7 +17,7 @@ public class UserService
 
     public async Task<User> CreateUserAsync(string username, string password)
     {
-        // Генерация случайной соли и хеширование пароля
+        
         byte[] salt = new byte[SaltSize];
         using (var rng = new RNGCryptoServiceProvider())
         {
@@ -36,7 +36,7 @@ public class UserService
             string hashString = BitConverter.ToString(hash).Replace("-", string.Empty);
             string saltString = BitConverter.ToString(salt).Replace("-", string.Empty);
 
-            // Создание нового пользователя
+            
             var user = new User
             {
                 Username = username,
@@ -44,7 +44,7 @@ public class UserService
                 Salt = saltString
             };
 
-            // Добавление пользователя в контекст и сохранение изменений
+            
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
