@@ -54,13 +54,13 @@ public class UserService
 
     public async Task<bool> AuthenticateUserAsync(string username, string password)
     {
-        var user = _context.Users.SingleOrDefault(x => x.Username == username);
+        var user = _context.Users.FirstOrDefault(x => x.Username == username);
 
         if (user == null)
         {
-            // throw new UnauthorizedAccessException("User not found");
             return false;
         }
+        
 
         byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
         byte[] saltBytes = HexToByteArray(user.Salt);
